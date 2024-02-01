@@ -1,0 +1,5 @@
+CREATE TABLE pictures (
+id SERIAL PRIMARY KEY,
+name VARCHAR(255),
+path VARCHAR(255)
+);

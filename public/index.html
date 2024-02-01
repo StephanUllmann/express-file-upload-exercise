@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="/upload-profile-pic" enctype="multipart/form-data" method="POST">
+      <div>
+        <label for="profile_pic">Select your profile picture:</label>
+        <input name="profile_pic" type="file" id="profile_pic" />
+      </div>
+      <div><input type="submit" value="Upload" /></div>
+    </form>
+    <hr />
+
+    <form action="/upload-cat-pics" enctype="multipart/form-data" method="POST">
+      <div>
+        <label for="cat_pics">Select your cat pictures:</label>
+        <input multiple="multiple" name="cat_pics" id="cat_pics" type="file" />
+      </div>
+      <div><input type="submit" value="Upload Cat Pics" /></div>
+    </form>
+    <a href="/get-pics">Get pics!</a>
+  </body>
+</html>
