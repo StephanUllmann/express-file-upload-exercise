@@ -1,7 +1,8 @@
-const { Pool } = require('pg');
+import pkg from 'pg';
+const { Pool } = pkg;
 
 const connectionString = process.env.PG_CONN_STR;
 
 const pool = new Pool({ connectionString });
 
-module.exports = pool;
+export default pool;

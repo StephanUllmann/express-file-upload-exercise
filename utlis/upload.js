@@ -1,5 +1,5 @@
-const multer = require('multer');
-const storage = multer.diskStorage({
+import multer, { diskStorage } from 'multer';
+const storage = diskStorage({
   destination: (req, file, cb) => {
     cb(null, './public/upload');
   },
@@ -26,10 +26,11 @@ const fileFilter = (req, file, cb) => {
     const err = new Error();
     err.message = `Wrong file type, only ${ALLOWED_EXT.join(', ')} allowed!`;
     err.statusCode = 400;
+    console.log(err);
     cb(err);
   }
 };
 
 const upload = multer({ storage, fileFilter });
 
-module.exports = upload;
+export default upload;

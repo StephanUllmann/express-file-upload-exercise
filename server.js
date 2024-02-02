@@ -1,11 +1,13 @@
-require('dotenv').config();
-const express = require('express');
-const upload = require('./utlis/upload.js');
-require('colors');
-const pool = require('./db/db.js');
+import 'dotenv/config.js';
+import express from 'express';
+import upload from './utlis/upload.js';
+import 'colors';
+import cors from 'cors';
+import pool from './db/db.js';
 
 const app = express();
 const port = process.env.PORT || 8000;
+app.use(cors());
 app.use(express.static('public'));
 
 function errorHandler(err, req, res, next) {
@@ -30,7 +32,7 @@ app.post('/upload-profile-pic', upload.single('profile_pic'), async (req, res) =
       throw new Error('Saving image failed');
     }
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 });
 
@@ -65,7 +67,7 @@ app.post('/upload-cat-pics', upload.array('cat_pics'), async (req, res) => {
 
     res.send(`<div><h2>Here are the pictures:</h2>${imagesHTML}</div>`);
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 });
 
@@ -79,8 +81,22 @@ app.get('/get-pics', async (req, res) => {
 
     res.send(`<h1>All pics</h1>${html}<a href="/">Back</a>`);
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
+});
+
+app.post('/react-single', upload.single('profile_pic'), (req, res) => {
+  console.log(req.file);
+  const properFilePath = req.file.path.replaceAll('\\', '/').replace('public/', '');
+  res.json({ msg: 'Success', links: [`http://localhost:${port}/${properFilePath}`] });
+});
+
+app.post('/react-multiple', upload.array('cat_pics'), (req, res) => {
+  console.log(req.files);
+  const links = req.files.map(
+    (file) => `http://localhost:${port}/${file.path.replaceAll('\\', '/').replace('public/', '')}`
+  );
+  res.json({ msg: 'Success', links });
 });
 
 app.use(errorHandler);
